@@ -2,9 +2,18 @@ package com.younes.locadrive.model;
 
 import com.younes.locadrive.model.enums.UserRole;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 //for general comments on entity implementations, see Vehicle class
 
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "UTILISATEUR")
 public class Utilisateur {
@@ -46,6 +55,9 @@ public class Utilisateur {
 
     @OneToOne(mappedBy = "utilisateur", cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
     private Staff staff;
+
+    @OneToMany(mappedBy = "utilisateur")
+    private List<Reservation> reservations; //needs to be a container as we can store multiple reservations for one user
 
 
 }

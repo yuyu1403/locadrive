@@ -2,9 +2,15 @@ package com.younes.locadrive.model;
 
 import com.younes.locadrive.model.enums.ContractType;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.time.LocalDate;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "STAFF")
 public class Staff {
@@ -14,8 +20,7 @@ public class Staff {
     private Integer staffId;
 
     @Column(name = "staff_entry_date", nullable = false)
-    @Temporal(TemporalType.DATE)
-    private Date entryDate;
+    private LocalDate entryDate;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "staff_contract", nullable = false)
@@ -24,6 +29,7 @@ public class Staff {
     @Column(name = "staff_RQTH", nullable = false)
     private Boolean isRQTH;
 
+    // Foreign key user_id relation
     @OneToOne(fetch = FetchType.LAZY)
     @MapsId
     @JoinColumn(name = "staff_id", referencedColumnName = "user_id")

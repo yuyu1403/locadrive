@@ -1,7 +1,13 @@
 package com.younes.locadrive.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "CLIENT")
 public class Client {
@@ -13,6 +19,7 @@ public class Client {
     @Column(name = "cli_licence", unique = true, nullable = false, length = 50)
     private String licenceNumber;
 
+    // Foreign key user_id relationship
     @OneToOne(fetch = FetchType.LAZY)
     //establishes a 1to1 relation with the Utilisateur entity.Each Client => one Utilisateur
     //the FetchType.LAZY is an attribute of one to one which indicates that the utilisateur details

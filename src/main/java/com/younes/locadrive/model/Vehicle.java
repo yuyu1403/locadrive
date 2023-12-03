@@ -2,10 +2,22 @@ package com.younes.locadrive.model;
 
 import com.younes.locadrive.model.enums.*;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDate;
+import java.util.List;
 
+
+@Data //annotation to use Lombok getter setter generator
+@NoArgsConstructor // annotation to use Lombok no argument constructor (required by JPA entities)
+//No arg constructor makes a class a bean, which is one of the fundamental concepts in Spring.
+// This allows IOC (Inversion of Control) which means that Spring takes over the control of instantiating
+// and wiring objects together (instead of the developer)=> see dependency injection.
+//After compiling the project, the result of Lombok generation is visible in the structure thumbnail
+@AllArgsConstructor
 @Entity
 @Table(name = "VEHICLE")
 public class Vehicle {
@@ -54,10 +66,10 @@ public class Vehicle {
     private Boolean isTankOk;
 
     @Column(name = "veh_service", nullable = false)
-    @Temporal(TemporalType.DATE)
-    // specifies the type of temporal data (data, time, timestamp)
-    // indicates that only the date part of the date-time value should be persisted
-    private Date serviceDate;
+    private LocalDate serviceDate;
+
+    @OneToMany(mappedBy = "vehicle")
+    private List<Reservation> reservations; //needs to be a container as we can store multiple reservations for one vehicle
 }
 
 // all the variable are private, meaning that the class is the only only able to modify its fields.
