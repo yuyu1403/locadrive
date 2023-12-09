@@ -1,5 +1,7 @@
 package com.younes.locadrive.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.younes.locadrive.model.enums.UserRole;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -36,7 +38,7 @@ public class Utilisateur {
     private String address;
 
     @Column(name = "user_phone", unique = true, nullable = false, length = 20)
-    private Integer phone;
+    private String phone;
 
     @Column(name = "user_pwd", nullable = false, length = 255)
     private String password;

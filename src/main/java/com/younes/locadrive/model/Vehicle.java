@@ -1,5 +1,8 @@
 package com.younes.locadrive.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.younes.locadrive.model.enums.*;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -53,7 +56,7 @@ public class Vehicle {
     private FuelType fuelType;
 
     @Column(name = "veh_mileage", nullable = false)
-    private Integer Mileage;
+    private Integer mileage;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "veh_transmission", nullable = false)
@@ -69,6 +72,7 @@ public class Vehicle {
     private LocalDate serviceDate;
 
     @OneToMany(mappedBy = "vehicle")
+    @JsonIgnore
     private List<Reservation> reservations; //needs to be a container as we can store multiple reservations for one vehicle
 }
 
