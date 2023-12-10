@@ -1,8 +1,8 @@
 package com.younes.locadrive.restcontrollers;
 
+import com.younes.locadrive.dto.ClientUpdateDTO;
 import com.younes.locadrive.dto.UtilisateurDTO;
 import com.younes.locadrive.model.Client;
-import com.younes.locadrive.model.Utilisateur;
 import com.younes.locadrive.service.UtilisateurService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -46,7 +46,16 @@ public class UtilisateurController {
 
 
                                             //**** UPDATE METHODS ****
+    @PutMapping("/clients/{id}")
+    public ResponseEntity<ClientUpdateDTO> updateClient(@PathVariable Integer id, @RequestBody ClientUpdateDTO clientUpdateDTO) {
 
+        if (!clientUpdateDTO.getUserId().equals(id)) {
+            return ResponseEntity.badRequest().body(null);
+        }
+
+        ClientUpdateDTO updatedClient = utilisateurService.updateClient(clientUpdateDTO);
+        return ResponseEntity.ok(updatedClient);
+    }
                                             //**** DELETE METHODS ***
 //Many errors when trying to delete a client. For the moment it will be done on request directly
 //by admin in the DB.

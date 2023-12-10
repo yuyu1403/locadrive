@@ -1,5 +1,7 @@
 package com.younes.locadrive.service;
 
+import com.younes.locadrive.dto.ReservationCreateDTO;
+import com.younes.locadrive.dto.ReservationDTO;
 import com.younes.locadrive.model.Reservation;
 import com.younes.locadrive.model.Utilisateur;
 
@@ -8,28 +10,27 @@ import java.util.List;
 
 public interface ReservationService {
 
-    //Creating a new reservation:
-    Reservation createReservation(Reservation reservation);
+    // Creating a new reservation:
+    ReservationDTO createReservation(ReservationCreateDTO reservationCreateDTO);
 
-    //Deleting a reservation:
-    //ʘ‿ʘ: updating a reservation => deleting and recreating.
+    // Deleting a reservation:
     void deleteReservation(Integer reservationId);
 
-    //Getting a reservation by id:
-    Reservation getReservationById(Integer reservationId);
+    // Getting a reservation by id:
+    ReservationDTO getReservationById(Integer reservationId);
 
-    //Getting all the reservations:
-    List<Reservation> getAllReservations();
+    // Getting all the reservations:
+    List<ReservationDTO> getAllReservations();
 
-    //Getting all reservations for a client:
-    List<Reservation> getReservationsByClient(Utilisateur utilisateur); //??????????????????????????????????
+    // Getting all reservations for a client:
+//    List<ReservationDTO> getReservationsByClient(Integer userId);
 
-    //Getting all reservations by start date
-    List<Reservation> getReservationsByStartDate(LocalDate reservationStart);
+    // Getting all reservations by start date:
+    List<ReservationDTO> getReservationsByStartDate(LocalDate reservationStart);
 
-    //Getting all reservations by end date
-    List<Reservation> getReservationsByEndDate(LocalDate reservationEnd);
+    // Getting all reservations by end date:
+    List<ReservationDTO> getReservationsByEndDate(LocalDate reservationEnd);
 
-    //Checking availability of a vehicle for a given date range:
+    // Checking availability of a vehicle for a given date range:
     boolean isVehicleAvailableForDates(Integer vehicleId, LocalDate reservationStart, LocalDate reservationEnd);
 }

@@ -1,5 +1,6 @@
 package com.younes.locadrive.repos;
 
+import com.younes.locadrive.dto.ReservationCreateDTO;
 import com.younes.locadrive.model.Reservation;
 import com.younes.locadrive.model.Utilisateur;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -31,4 +32,5 @@ public interface ReservationRepository extends JpaRepository <Reservation, Integ
     // existsByVehicle_VehicleId: this query targets vehicleId within the Vehicle object, which has a relationship with reservation.
     // AndReservationStartLessThanEqual: includes reservations which start on/before a specific date.
     // AndReservationEndGreaterThanEqual: includes reservations which end on/after a specific date.
+
 }
