@@ -4,7 +4,9 @@ import com.younes.locadrive.dto.ClientUpdateDTO;
 import com.younes.locadrive.dto.UtilisateurDTO;
 import com.younes.locadrive.model.Client;
 import com.younes.locadrive.service.UtilisateurService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,9 +28,9 @@ public class UtilisateurController {
 
     //Create a new client account:
     @PostMapping("/clients")
-    public ResponseEntity<Client> createClient(@RequestBody Client client){
+    public ResponseEntity<Client> createClient(@Valid @RequestBody Client client){
         Client newClient = utilisateurService.createClient(client, client.getUtilisateur());
-        return ResponseEntity.ok(newClient);
+        return new ResponseEntity<>(newClient, HttpStatus.CREATED);
     }
                                             //**** READ METHODS ****
 

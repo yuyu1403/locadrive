@@ -9,6 +9,7 @@ import com.younes.locadrive.repos.ClientRepository;
 import com.younes.locadrive.repos.UtilisateurRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,15 +22,20 @@ public class UtilisateurServiceImpl implements UtilisateurService{
 
     private final UtilisateurRepository utilisateurRepository;
     private final ClientRepository clientRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UtilisateurServiceImpl(UtilisateurRepository utilisateurRepository, ClientRepository clientRepository){
+    public UtilisateurServiceImpl(UtilisateurRepository utilisateurRepository, ClientRepository clientRepository, PasswordEncoder passwordEncoder){
         this.utilisateurRepository = utilisateurRepository;
         this.clientRepository = clientRepository;
+        this.passwordEncoder = passwordEncoder;
     }
     @Override
     @Transactional
     public Client createClient(Client client, Utilisateur utilisateur) {
+        String encodedPassword = passwordEncoder.encode(utilisateur.getPassword());
+        utilisateur.setPassword(encodedPassword);
+
         Utilisateur savedUtilisateur = utilisateurRepository.save(utilisateur);
         client.setUtilisateur(savedUtilisateur);
         return clientRepository.save(client);
@@ -85,6 +91,7 @@ public class UtilisateurServiceImpl implements UtilisateurService{
 //                .orElseThrow(() -> new RuntimeException("User not found with id: " + utilisateur.getUserId()));
 //    }
 
+    // update doesn't work but it used to????
     @Override
     @Transactional
     public ClientUpdateDTO updateClient(ClientUpdateDTO clientUpdateDTO){
@@ -98,7 +105,9 @@ public class UtilisateurServiceImpl implements UtilisateurService{
         if (clientUpdateDTO.getEmail() != null) existingUtilisateur.setEmail(clientUpdateDTO.getEmail());
         if (clientUpdateDTO.getAddress() != null) existingUtilisateur.setAddress(clientUpdateDTO.getAddress());
         if (clientUpdateDTO.getPhone() != null) existingUtilisateur.setPhone(clientUpdateDTO.getPhone());
-        if (clientUpdateDTO.getPassword() != null) existingUtilisateur.setPassword(clientUpdateDTO.getPassword());
+        if (clientUpdateDTO.getPassword() != null && !clientUpdateDTO.getPassword().isEmpty()) {
+            existingUtilisateur.setPassword(passwordEncoder.encode(clientUpdateDTO.getPassword()));
+        }
         // Handle password separately
 
         // Save the updated Utilisateur
@@ -162,10 +171,5 @@ public class UtilisateurServiceImpl implements UtilisateurService{
         client.setLicenceNumber(clientUpdateDTO.getLicenceNumber());
         return client;
     }
-
-
-
-
-
 
 }
